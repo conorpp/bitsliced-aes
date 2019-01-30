@@ -10,15 +10,16 @@
 
 #include "app.h"
 #include "../bs.h"
+#include "../aes.h"
 
-static void openssl_die()
+static void openssl_die(void)
 {
     fprintf(stderr,"error: %s\n",
             ERR_error_string(ERR_get_error(),NULL) );
     exit(2);
 }
 
-static unsigned int hex2bin(unsigned char ** bin, const unsigned char * hex)
+static unsigned int hex2bin(unsigned char ** bin, const char * hex)
 {
     int len;
     BIGNUM * bn = NULL;
@@ -51,10 +52,10 @@ int cli_app(int argc, char * argv[])
         exit(1);
     }
 
-    unsigned char * key_s = argv[1];
-    unsigned char * iv_s = argv[2];
-    unsigned char * input_name = argv[3];
-    unsigned char * output_name = argv[4];
+    char * key_s = argv[1];
+    char * iv_s = argv[2];
+    char * input_name = argv[3];
+    char * output_name = argv[4];
 
     FILE * input = fopen(input_name, "r");
     if (input == NULL)
